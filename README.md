@@ -28,7 +28,7 @@ Antes de iniciar a utilização da biblioteca, é necessário informar os dados 
 
 Esta configuração está disponível inicializando a classe `Safe2Pay`, que contém todas as classes e métodos disponíveis pela biblioteca de integração.
 
-```
+``` CSharp
 Safe2Pay safe2pay = new Safe2Pay_Request(
   token: "PREENCHA_COM_SEU_TOKEN",
   secret: "PREENCHA_COM_SUA_SECRET_KEY", //Opcional
@@ -70,7 +70,7 @@ var checkout = safe2pay.Payment.Credit(transaction);
 
 O objeto esperado para uma transação deve seguir o modelo abaixo:
 
-```
+``` CSharp
 var transaction = new Transaction<object>
 {
 	IsSandbox = true, //Definir com base no Token utilizado
@@ -118,7 +118,7 @@ O retorno do envio da transação trará um status para esta. [Consulte todos os
 
 #### Boleto Bancário
 
-```
+``` CSharp
 var bankSlip = new Transaction<BankSlip>
 {
 	PaymentMethod = new PaymentMethod { Code = "1" },
@@ -142,7 +142,7 @@ var bankSlip = new Transaction<BankSlip>
 
 O método `BankSlip` é o responsável pelo envio de uma transação com boleto e está na classe `Payment`.
 
-```
+``` CSharp
 var transaction = new Transaction<BankSlip> { /*CORPO DO OBJETO DA TRANSAÇÃO*/ };
 
 var response = safe2pay.Payment.BankSlip(transaction);
@@ -158,7 +158,7 @@ Console.WriteLine($"Pagamento pendente. O link para download e impressão do bol
 
 Para realizar a tokenização dos dados do cartão de crédito de um cliente, deve-se usar o método `Tokenize`, em `Token`, que retorna uma string com o token gerado para posterior utilização segura em uma transação.
 
-```
+``` CSharp
 var card = new CreditCard
 {
 	CardNumber = "4111111111111111",
@@ -174,7 +174,7 @@ Console.WriteLine($"Token '{response}' criado com sucesso!");
 
 Formato do objeto de envio de uma transação por cartão de crédito:
 
-```
+``` CSharp
 var credit = new Transaction<CreditCard>
 {
 	PaymentMethod = new PaymentMethod { Code = "2" },
@@ -198,7 +198,7 @@ var credit = new Transaction<CreditCard>
 
 O método `Credit` é o responsável pelo envio de uma transação com cartão de crédito e está na classe `Payment`:
 
-```
+``` CSharp
 var transaction = new Transaction<CreditCard> { /*CORPO DO OBJETO DA TRANSAÇÃO*/ };
 
 var response = safe2pay.Payment.Credit(transaction);
@@ -212,7 +212,7 @@ Console.WriteLine(response.Status.Equals("3")
 
 Para realizar o estorno de uma transação realizada por cartão de crédito, deve-se utilizar o método `RefundCredit`, dentro da classe `Transaction`.
 
-```
+``` CSharp
 var refund = safe2pay.Transaction.RefundCredit(response.IdTransaction); //Utilizando a transação anterior como exemplo
 
 if (refund) 
@@ -221,7 +221,7 @@ if (refund)
 
 #### CriptoMoedas
 
-```
+``` CSharp
 var transaction = new Transaction<Bitcoin>
 {
 	PaymentMethod = new PaymentMethod { Code = "3" },
@@ -232,7 +232,7 @@ Para uma transação por Bitcoin, basta informar o código do método de pagamen
 
 O método `Bitcoin` é o responsável pelo envio de uma transação com Bitcoin e está na classe `Checkout`.
 
-```
+``` CSharp
 var transaction = new Transaction<Bitcoin> { /*CORPO DO OBJETO DA TRANSAÇÃO*/ };
 
 var checkout = new CheckoutRequest(config);
@@ -247,7 +247,7 @@ Console.WriteLine($"Pagamento pendente. Por favor, realizar o envio de {response
 
 #### Cartão de Débito
 
-```
+``` CSharp
 var debit = new Transaction<DebitCard>
 {
 	PaymentMethod = new PaymentMethod { Code = "4" },
@@ -268,7 +268,7 @@ var debit = new Transaction<DebitCard>
 
 O método `Debit` é o responsável pelo envio de uma transação com cartão de débito e está na classe `Checkout`:
 
-```
+``` CSharp
 var transaction = new Transaction<DebitCard> { /*CORPO DO OBJETO DA TRANSAÇÃO*/ };
 
 var response = safe2pay.Payment.Debit(transaction);
@@ -280,7 +280,7 @@ Console.WriteLine($"Pagamento pendente. Por favor, acesse a página {response.Au
 
 Para realizar o estorno de uma transação realizada por cartão de crédito, deve-se utilizar o método `RefundDebit`, dentro da classe `Transaction`.
 
-```
+``` CSharp
 var refund = safe2pay.Transaction.RefundDebit(response.IdTransaction); //Utilizando a transação anterior como exemplo
 
 if (refund) 
@@ -293,7 +293,7 @@ Na classe `Invoice` estão os métodos disponíveis pela geração e tratamento 
 
 O objeto para uma nova venda deve ser montado seguindo o modelo abaixo:
 
-```
+``` CSharp
 var invoice = new SingleSale
 {
     Customer = new Customer
@@ -343,7 +343,7 @@ Console.WriteLine($"Siga o link para realizar o pagamento: {response.SingleSaleU
 
 Para realizar o cancelamento de uma solicitação de cobrança, basta realizar uma chamada para o método `Cancel`, informando o hash gerado para a solicitação desejada. A resposta será um booleano com a confirmação do cancelamento.
 
-```
+``` CSharp
 //Utilizando a resposta do método anterior como variável
 var saleToCancel = "SingleSaleHash"; 
 
